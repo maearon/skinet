@@ -5,6 +5,10 @@ import { map, of, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Address, User, Response } from '../shared/models/user';
 
+export interface SessionResponse<User> {
+  user: User
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,12 +28,12 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<User>(this.baseUrl + 'account', {headers}).pipe(
-      map(user => {
-        if (user) {
-          localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
-          return user;
+    return this.http.get<SessionResponse<User>>(this.baseUrl + 'sessions', {headers}).pipe(
+      map(response => {
+        if (response.user) {
+          localStorage.setItem('token', response.user.token);
+          this.currentUserSource.next(response.user);
+          return response.user;
         } else {
           return null;
         }
