@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, of, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Address, User } from '../shared/models/user';
+import { Address, User, Response } from '../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -38,19 +38,19 @@ export class AccountService {
   }
 
   login(values: any) {
-    return this.http.post<User>(this.baseUrl + 'account/login', values).pipe(
-      map(user => {
-        localStorage.setItem('token', user.token);
-        this.currentUserSource.next(user);
+    return this.http.post<Response<User>>(this.baseUrl + 'login', values).pipe(
+      map(response => {
+        localStorage.setItem('token', response.tokens.access.token);
+        this.currentUserSource.next(response.user || null);
       })
     )
   }
 
   register(values: any) {
-    return this.http.post<User>(this.baseUrl + 'account/register', values).pipe(
-      map(user => {
-        localStorage.setItem('token', user.token);
-        this.currentUserSource.next(user);
+    return this.http.post<Response<User>>(this.baseUrl + 'account/register', values).pipe(
+      map(response => {
+        localStorage.setItem('token', response.tokens.access.token);
+        this.currentUserSource.next(response.user || null);
       })
     )
   }

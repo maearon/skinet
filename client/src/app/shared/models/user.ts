@@ -1,7 +1,10 @@
 export interface User {
-    email: string;
-    displayName: string;
-    token: string;
+  readonly id: number
+  email: string
+  name: string
+  admin: string
+  token: string;
+  avatar?: string
 }
 
 export interface Address {
@@ -11,4 +14,20 @@ export interface Address {
     city: string;
     state: string;
     zipcode: string;
+}
+
+export interface Response<User> {
+  user?: User
+  tokens: {
+    access: {
+      token: string;
+      expires: string;
+    };
+    refresh: {
+      token: string;
+      expires: string;
+    };
+  };
+  flash?: [message_type: string, message: string]
+  error?: string[]
 }
