@@ -58,7 +58,7 @@ namespace API.Extensions
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()
-                        .WithOrigins("https://localhost:4200", "http://localhost:3001");
+                        .WithOrigins("http://localhost:4200", "http://localhost:3001");
                 });
             });
 
