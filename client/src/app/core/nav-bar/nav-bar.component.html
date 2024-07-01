@@ -8,8 +8,10 @@
             [routerLinkActiveOptions]="{exact: true}"
         >Home</a>
         <a class="p-2" routerLink="/help" routerLinkActive="active">Help</a>
-        <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
-        <a class="p-2" routerLink="/test-error" routerLinkActive="active">Errors</a>
+        <!-- <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a> -->
+        <a class="p-2" *ngIf="accountService.currentUser$ | async as user" routerLink="/users" routerLinkActive="active">Users</a>
+        <!-- <a class="p-2" routerLink="/test-error" routerLinkActive="active">Errors</a> -->
+        <a class="p-2" *ngIf="accountService.currentUser$ | async as user" routerLink="/users/{{user.id}}" routerLinkActive="active">Profile</a>
     </nav>
     <div class="d-flex align-items-center">
         <a routerLink="/basket" class="position-relative">
@@ -29,16 +31,16 @@
                     <strong>Welcome {{user.name}}</strong>
                 </a>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
-                    <li class="py-1">
+                    <!-- <li class="py-1">
                       <a routerLink="/users" class="dropdown-item">
                           <i class="fa fa-users me-3"></i> Users
                       </a>
-                    </li>
-                    <li class="py-1">
+                    </li> -->
+                    <!-- <li class="py-1">
                       <a routerLink="/basket" class="dropdown-item">
                           <i class="fa fa-address-card me-3"></i> Profile
                       </a>
-                    </li>
+                    </li> -->
                     <li class="py-1">
                         <a routerLink="/basket" class="dropdown-item">
                             <i class="fa fa-cog me-3"></i> Settings
