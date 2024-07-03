@@ -9,16 +9,6 @@ import { UserShow } from 'src/app/user-detailed/user-detailed.service';
 export class FollowFormComponent {
   @Input() id: string = '';
   @Input() user: UserShow | null = null;
-
-  @Output() follow = new EventEmitter<Event>();
-  @Output() unfollow = new EventEmitter<Event>();
-
-  handleSubmit(event: Event, action: 'follow' | 'unfollow'): void {
-    event.preventDefault();
-    if (action === 'follow') {
-      this.follow.emit(event);
-    } else if (action === 'unfollow') {
-      this.unfollow.emit(event);
-    }
-  }
+  @Output() handleUnfollow: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output() handleFollow: EventEmitter<Event> = new EventEmitter<Event>();
 }

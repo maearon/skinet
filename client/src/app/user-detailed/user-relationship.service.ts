@@ -25,20 +25,21 @@ export class RelationshipApiService {
 
   create(params: CreateParams): Observable<CreateResponse> {
     return this.http.post<CreateResponse>(this.baseUrl, params, {
-      // headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders(),
       withCredentials: true
     });
   }
 
   destroy(id: number): Observable<DestroyResponse> {
     return this.http.delete<DestroyResponse>(`${this.baseUrl}/${id}`, {
-      // headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders(),
       withCredentials: true
     });
   }
 
-  // private getAuthHeaders(): HttpHeaders {
-  //   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  //   return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  // }
+  private getAuthHeaders(): HttpHeaders {
+    let token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    let rememberToken = localStorage.getItem('remember_token') || sessionStorage.getItem('remember_token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token} ${rememberToken}`);
+  }
 }

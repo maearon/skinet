@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { User as CurrentUser } from '../shared/models/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccountService } from '../account/account.service';
@@ -16,17 +16,19 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./user-detailed.component.scss']
 })
 export class UserDetailedComponent implements OnInit, OnDestroy {
+  @ViewChild('inputUnfollow') inputUnfollow!: ElementRef;
+  @ViewChild('inputFollow') inputFollow!: ElementRef;
+
   user: UserShow | null = null;
   microposts: Micropost[] = [];
-  id: string = '';
+  id: string | null = '';
   page: number = 1;
   totalCount: number = 1;
-  // currentUser: any;
-  private routeSub?: Subscription;  // Mark as optional
-  private userSub?: Subscription;   // Mark as optional
-  // currentUser$: Observable<CurrentUser | null> = of(null);
+  private routeSub?: Subscription;
+  private userSub?: Subscription;
   currentUser: { value: CurrentUser | null, error: string } = { value: null, error: '' };
   loading: boolean = true;
+  isSubmitting: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,16 +48,11 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
+    this.id = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    this.routeSub = this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.id = id;
-        this.loadData(id);
-      }
-    });
+    this.setFeeds();
   }
 
   ngOnDestroy(): void {
@@ -67,40 +64,66 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
     }
   }
 
-  private loadData(id: string): void {
-    this.userApiService.show(id, { page: this.page }).subscribe(response => {
-      this.user = response.user;
-      this.microposts = response.microposts;
-      this.totalCount = response.total_count;
-    });
+  setFeeds(): void {
+    if (this.id) {
+      this.userApiService.show(this.id, { page: this.page }).subscribe(response => {
+        this.user = response.user;
+        this.microposts = response.microposts;
+        this.totalCount = response.total_count;
+
+        // Ensure `current_user_following_user` is set based on the current user state
+        if (this.user && this.currentUser.value) {
+          this.user.current_user_following_user = response.user.current_user_following_user;
+        }
+      });
+    }
   }
 
   handlePageChange(pageNumber: number): void {
     this.page = pageNumber;
-    if (this.user) {
-      this.loadData(this.user.id.toString());
-    }
+    this.setFeeds();
   }
 
   handleFollow(event: Event): void {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission
+    this.isSubmitting = true;
     if (this.id) {
-      this.relationshipApiService.create({ followed_id: this.id }).subscribe(response => {
-        if (response.follow) {
-          this.loadData(this.user?.id.toString() || '');
+      this.relationshipApiService.create({ followed_id: this.id }).subscribe(
+        response => {
+          this.isSubmitting = false;
+          if (response.follow) {
+            this.inputFollow.nativeElement.blur();
+            // Call `setFeeds()` to refresh the user and micropost data
+            this.setFeeds();
+          }
+        },
+        error => {
+          this.isSubmitting = false;
+          console.log(error);
         }
-      });
+      );
     }
   }
 
   handleUnfollow(event: Event): void {
-    event.preventDefault();
-    if (this.user) {
-      this.relationshipApiService.destroy(this.user.id).subscribe(response => {
-        if (response.unfollow) {
-          this.loadData(this.user?.id.toString() || '');
+    event.preventDefault(); // Prevent default form submission
+    this.isSubmitting = true;
+    if (this.id) {
+      const userId = Number(this.id);  // Convert `id` from string to number
+      this.relationshipApiService.destroy(userId).subscribe(
+        response => {
+          this.isSubmitting = false;
+          if (response.unfollow) {
+            this.inputUnfollow.nativeElement.blur();
+            // Call `setFeeds()` to refresh the user and micropost data
+            this.setFeeds();
+          }
+        },
+        error => {
+          this.isSubmitting = false;
+          console.log(error);
         }
-      });
+      );
     }
   }
 
@@ -109,15 +132,18 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
     if (confirm("Are you sure?")) {
       this.micropostApiService.remove(micropostId).subscribe(response => {
         if (response.flash) {
-          // flashMessage(...response.flash);
           this.toastr.success(...response.flash);
-          this.loadData(this.user?.id.toString() || '');
+          this.setFeeds();
         }
       });
     }
   }
 
+  get currentUserId(): number {
+    return this.currentUser.value?.id ?? 0;
+  }
+
   get isCurrentUser(): boolean {
-    return (this.currentUser && this.currentUser.value?.id !== parseInt(this.id || '1') || true)
+    return this.user ? this.currentUserId === this.user.id : false;
   }
 }
