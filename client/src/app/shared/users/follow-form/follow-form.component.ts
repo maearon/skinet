@@ -7,8 +7,9 @@ import { UserShow } from 'src/app/user-detailed/user-detailed.service';
   styleUrls: ['./follow-form.component.scss']
 })
 export class FollowFormComponent {
-  @Input() id: string = '';
+  @Input() id: string | null = null;
   @Input() user: UserShow | null = null;
+  @Input() isSubmitting: boolean = false;
   @Output() handleUnfollow: EventEmitter<Event> = new EventEmitter<Event>();
   @Output() handleFollow: EventEmitter<Event> = new EventEmitter<Event>();
 }

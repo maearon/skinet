@@ -1,29 +1,16 @@
 <div id="follow_form">
   <ng-container *ngIf="user?.current_user_following_user; else followButton">
-    <form
-      [attr.action]="'/relationships/' + id"
-      accept-charset="UTF-8"
-      data-remote="true"
-      method="post"
-      (ngSubmit)="handleUnfollow.emit($event)"
-    >
+    <form (submit)="handleUnfollow.emit($event)">
       <input
         type="submit"
-        name="commit"
-        value="Unfollow"
         class="btn"
-        data-disable-with="Unfollow"
+        [disabled]="isSubmitting"
+        value="Unfollow"
       />
     </form>
   </ng-container>
   <ng-template #followButton>
-    <form
-      action="/relationships"
-      accept-charset="UTF-8"
-      data-remote="true"
-      method="post"
-      (ngSubmit)="handleFollow.emit($event)"
-    >
+    <form (submit)="handleFollow.emit($event)">
       <input
         type="hidden"
         name="followed_id"
@@ -32,10 +19,9 @@
       />
       <input
         type="submit"
-        name="commit"
-        value="Follow"
         class="btn btn-primary"
-        data-disable-with="Follow"
+        [disabled]="isSubmitting"
+        value="Follow"
       />
     </form>
   </ng-template>
