@@ -126,7 +126,7 @@ export class UserApiService {
     return this.http.post<CreateResponse<User>>(this.baseUrl, params);
   }
 
-  show(id: string | null, params: ListParams): Observable<ShowResponse<UserShow>> {
+  show(id: string | null, params: ListParams) {
     return this.http.get<ShowResponse<UserShow>>(`${this.baseUrl}/${id}`, { params });
   }
 

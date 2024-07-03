@@ -30,7 +30,7 @@ export class RelationshipApiService {
     });
   }
 
-  destroy(id: number): Observable<DestroyResponse> {
+  destroy(id: string): Observable<DestroyResponse> {
     return this.http.delete<DestroyResponse>(`${this.baseUrl}/${id}`, {
       headers: this.getAuthHeaders(),
       withCredentials: true

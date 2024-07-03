@@ -65,18 +65,21 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
   }
 
   setFeeds(): void {
-    if (this.id) {
-      this.userApiService.show(this.id, { page: this.page }).subscribe(response => {
-        this.user = response.user;
-        this.microposts = response.microposts;
-        this.totalCount = response.total_count;
-
-        // Ensure `current_user_following_user` is set based on the current user state
-        if (this.user && this.currentUser.value) {
-          this.user.current_user_following_user = response.user.current_user_following_user;
+      this.userApiService.show(this.id, { page: this.page }).subscribe({
+        next: (res) => {
+          this.user = res.user;
+          this.microposts = res.microposts;
+          this.totalCount = res.total_count;
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          // Handle the error
+        },
+        complete: () => {
+          console.log('Request complete');
+          // Do something on completion, if needed
         }
       });
-    }
   }
 
   handlePageChange(pageNumber: number): void {
@@ -88,20 +91,17 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
     event.preventDefault(); // Prevent default form submission
     this.isSubmitting = true;
     if (this.id) {
-      this.relationshipApiService.create({ followed_id: this.id }).subscribe(
-        response => {
-          this.isSubmitting = false;
-          if (response.follow) {
-            this.inputFollow.nativeElement.blur();
-            // Call `setFeeds()` to refresh the user and micropost data
-            this.setFeeds();
-          }
+      this.relationshipApiService.create({ followed_id: this.id }).subscribe({
+        next: (res) => {
+          if (res.follow) this.setFeeds();;
         },
-        error => {
+        error: (err) => {
+          this.toastr.success(err);
+        },
+        complete: () => {
           this.isSubmitting = false;
-          console.log(error);
         }
-      );
+      });
     }
   }
 
@@ -109,21 +109,17 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
     event.preventDefault(); // Prevent default form submission
     this.isSubmitting = true;
     if (this.id) {
-      const userId = Number(this.id);  // Convert `id` from string to number
-      this.relationshipApiService.destroy(userId).subscribe(
-        response => {
-          this.isSubmitting = false;
-          if (response.unfollow) {
-            this.inputUnfollow.nativeElement.blur();
-            // Call `setFeeds()` to refresh the user and micropost data
-            this.setFeeds();
-          }
+      this.relationshipApiService.destroy(this.id).subscribe({
+        next: (res) => {
+          if (res.unfollow) this.setFeeds();;
         },
-        error => {
+        error: (err) => {
+          this.toastr.success(err);
+        },
+        complete: () => {
           this.isSubmitting = false;
-          console.log(error);
         }
-      );
+      });
     }
   }
 
