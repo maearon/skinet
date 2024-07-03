@@ -2,9 +2,16 @@
     <h3>Loading...</h3>
 </ngx-spinner>
 
-<app-nav-bar></app-nav-bar>
-<app-section-header></app-section-header>
+<!-- <body> -->
 
-<router-outlet></router-outlet>
+  <app-nav-bar></app-nav-bar>
+  <app-section-header></app-section-header>
 
-<app-section-footer></app-section-footer>
+  <div class="container">
+    <!-- Content for the page will be injected here -->
+    <router-outlet></router-outlet>
+  </div>
+
+  <app-section-footer></app-section-footer>
+
+<!-- </body> -->
