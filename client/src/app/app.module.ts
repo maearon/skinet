@@ -12,12 +12,14 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { OrderDetailedComponent } from './order-detailed/order-detailed.component';
 import { UserDetailedComponent } from './user-detailed/user-detailed.component';
+import { FollowFormComponent } from './shared/users/follow-form/follow-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderDetailedComponent,
-    UserDetailedComponent
+    UserDetailedComponent,
+    FollowFormComponent
   ],
   imports: [
     BrowserModule,
