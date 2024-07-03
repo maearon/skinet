@@ -1,4 +1,4 @@
-<carousel [isAnimated]="true">
+<!-- <carousel [isAnimated]="true">
     <slide>
         <img src="assets/images/hero1.jpg" alt="slide" style="display: block; width: 100%;">
     </slide>
@@ -8,9 +8,142 @@
     <slide>
         <img src="assets/images/hero3.jpg" alt="slide" style="display: block; width: 100%;">
     </slide>
-</carousel>
+</carousel>  -->
 <section class="featured">
     <div class="d-flex justify-content-center pt-4">
-        <h1>Welcome to the Shop!</h1>
+        <!-- <h1>Welcome to the Shop!</h1> -->
     </div>
 </section>
+
+<div *ngIf="loading">
+  <!-- <app-skeleton height="304"></app-skeleton>
+  <app-skeleton circle="true" height="60" width="60"></app-skeleton> -->
+  <h2>Loading...</h2>
+</div>
+<div *ngIf="userData.error">
+  <h2>{{ userData.error }}</h2>
+</div>
+<div *ngIf="!loading && !userData.error && userData.value?.email" class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <img
+        class="gravatar"
+        [src]="'https://secure.gravatar.com/avatar/' + gravatar + '?s=50'"
+        [alt]="userData.value?.name"
+        width="50"
+        height="50"
+      />
+      <h1>{{ userData.value?.name }}</h1>
+      <span><a [routerLink]="['/users', userData.value?.id]">view my profile</a></span>
+      <span>{{ micropostCount }} micropost{{ micropostCount !== 1 ? 's' : '' }}</span>
+    </section>
+
+    <section class="stats">
+      <div class="stats">
+        <a [routerLink]="['/users', userData.value?.id, 'following']">
+          <strong id="following" class="stat">{{ following }}</strong> following
+        </a>
+        <a [routerLink]="['/users', userData.value?.id, 'followers']">
+          <strong id="followers" class="stat">{{ followers }}</strong> followers
+        </a>
+      </div>
+    </section>
+
+    <section class="micropost_form">
+      <form (ngSubmit)="handleSubmit($event)" enctype="multipart/form-data" accept-charset="UTF-8">
+        <div *ngIf="errors.length !== 0">
+          <!-- Handle error messages here -->
+        </div>
+        <div class="field">
+          <textarea
+            placeholder="Compose new micropost..."
+            name="micropost[content]"
+            id="micropost_content"
+            [(ngModel)]="content"
+            class="form-control"
+          ></textarea>
+        </div>
+        <input
+          #inputEl
+          type="submit"
+          name="commit"
+          value="Post"
+          class="btn btn-primary"
+          [disabled]="content === ''"
+        />
+        <span class="image">
+          <input
+            #inputImage
+            accept="image/jpeg,image/gif,image/png"
+            type="file"
+            name="micropost[image]"
+            id="micropost_image"
+            (change)="handleImageInput($event)"
+            class="form-control-file"
+          />
+        </span>
+      </form>
+    </section>
+  </aside>
+
+  <div class="col-md-8">
+    <h3>Micropost Feed</h3>
+    <div *ngIf="feedItems.length > 0">
+      <ol class="microposts list-unstyled">
+        <li *ngFor="let i of feedItems" [id]="'micropost-' + i.id" class="media mb-3">
+          <a [routerLink]="['/users', i.user_id]">
+            <img
+              class="mr-3 gravatar"
+              [src]="'https://secure.gravatar.com/avatar/' + i.gravatar_id + '?s=' + i.size"
+              [alt]="i.user_name"
+              [width]="i.size"
+              [height]="i.size"
+            />
+          </a>
+          <div class="media-body">
+            <span class="user">
+              <a [routerLink]="['/users', i.user_id]">{{ i.user_name }}</a>
+            </span>
+            <span class="content">
+              {{ i.content }}
+              <img *ngIf="i.image" [src]="i.image" alt="Example User" style="width: 100%; height: auto;" />
+            </span>
+            <span class="timestamp">
+              Posted {{ i.timestamp }} ago.
+              <a *ngIf="userData.value?.id === i.user_id" (click)="removeMicropost(i.id)">delete</a>
+            </span>
+          </div>
+        </li>
+      </ol>
+
+      <!-- <app-pagination
+        [activePage]="page"
+        [itemsCountPerPage]="5"
+        [totalItemsCount]="totalCount"
+        [pageRangeDisplayed]="5"
+        (pageChanged)="handlePageChange($event)"
+      ></app-pagination> -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading && !userData.error && !userData.value">
+  <div class="center jumbotron">
+    <h1>Welcome to the Sample App</h1>
+    <h2>
+      This is the home page for the
+      <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">NextJS Tutorial</a>
+      sample application.
+    </h2>
+    <a routerLink="/signup" class="btn btn-lg btn-primary">Sign up now!</a>
+  </div>
+  <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">
+    <img
+      class="logo"
+      src="/assets/next.svg"
+      alt="Next.js logo"
+      width="180"
+      height="38"
+    />
+  </a>
+</div>

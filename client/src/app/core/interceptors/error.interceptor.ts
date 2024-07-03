@@ -28,6 +28,13 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
           if (error.status === 401) {
             this.toastr.error(error.error.message, error.status.toString())
+            if (error.url === 'http://localhost:3001/api/sessions') {
+              localStorage.removeItem("token");
+              localStorage.removeItem("remember_token");
+              sessionStorage.removeItem("token");
+              sessionStorage.removeItem("remember_token");
+              this.toastr.error('Signature has expired', error.status.toString());
+            }
           }
           if (error.status === 404) {
             this.router.navigateByUrl('/not-found');

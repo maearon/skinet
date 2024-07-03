@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User, UsersService } from './users.service';
 import { AccountService } from '../account/account.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User as CurrentUser } from '../shared/models/user';
 // import { PageEvent } from '@angular/material/paginator';
 // import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
   users: User[] = [];
   page: number = 1;
   total_count: number = 1;
-  currentUser$: Observable<CurrentUser | null>;
+  currentUser$: Observable<CurrentUser | null> = of(null);
 
   constructor(
     private usersService: UsersService,
