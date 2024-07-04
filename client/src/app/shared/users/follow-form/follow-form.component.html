@@ -5,7 +5,7 @@
       accept-charset="UTF-8"
       data-remote="true"
       method="post"
-      (ngSubmit)="handleUnfollow.emit($event)"
+      (submit)="handleUnfollow.emit($event)"
     >
       <input
         type="submit"
@@ -22,7 +22,7 @@
       accept-charset="UTF-8"
       data-remote="true"
       method="post"
-      (ngSubmit)="handleFollow.emit($event)"
+      (submit)="handleFollow.emit($event)"
     >
       <input
         type="hidden"
