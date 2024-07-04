@@ -5,6 +5,7 @@ import { User as CurrentUser } from '../shared/models/user';
 import { AccountService } from '../account/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
+import { titleCase } from '../shared/helpers/string-helpers';
 
 @Component({
   selector: 'app-show-follow',
@@ -61,7 +62,7 @@ export class ShowFollowComponent implements OnInit {
           console.error('Error fetching follow data:', error);
         },
         complete: () => {
-          this.toastr.success(`${this.titleCase(this.current_user.value?.name)} ${this.titleCase(this.follow)} data fetch complete`);
+          this.toastr.success(`${titleCase(this.current_user.value?.name)} ${titleCase(this.follow)} data fetch complete`);
         }
       });
     }
@@ -91,11 +92,5 @@ export class ShowFollowComponent implements OnInit {
         }
       });
     }
-  }
-
-  // Helper function to convert a string to title case
-  titleCase(str: string | null | undefined): string {
-    if (!str) return '';
-    return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   }
 }

@@ -32,10 +32,10 @@
           <a *ngFor="let u of xusers" [routerLink]="['/users', u.id]">
             <img
               class="gravatar rounded-circle me-2"
-              [src]="'https://secure.gravatar.com/avatar/' + u.gravatar_id + '?s=30'"
+              [src]="'https://secure.gravatar.com/avatar/' + u.gravatar_id + '?s=' + u.size"
               [alt]="u.name"
-              width="30"
-              height="30"
+              [width]="u.size"
+              [height]="u.size"
             />
           </a>
         </ng-container>

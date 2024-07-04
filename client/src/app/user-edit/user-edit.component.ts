@@ -3,6 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserApiService, UserEdit } from '../user-detailed/user-detailed.service';
+import { titleCase } from '../shared/helpers/string-helpers';
+import { AccountService } from '../account/account.service';
+import { User as CurrentUser } from '../shared/models/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit',
@@ -16,13 +20,16 @@ export class EditComponent implements OnInit {
   user: UserEdit = {} as UserEdit;
   gravatar = '';
   errors: string[] = [];
+  current_user: { value: CurrentUser | null, error: string } = { value: null, error: '' };
+  loading = true;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private userApiService: UserApiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public accountService: AccountService,
   ) {
     this.id = this.route.snapshot.params['id'];
 
@@ -31,6 +38,17 @@ export class EditComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: [''],
       password_confirmation: ['']
+    });
+
+    this.accountService.currentUser$.subscribe({
+      next: (user: CurrentUser | null) => {
+        this.current_user.value = user;
+        this.loading = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastr.error(err.message || 'An error occurred');
+        this.loading = false;
+      }
     });
   }
 
@@ -49,9 +67,20 @@ export class EditComponent implements OnInit {
           });
           this.gravatar = response.gravatar;
         }
-        if (response.flash) {
-          this.toastr.success(...response.flash);
-          this.router.navigate(['/']);
+        if (response.user) {
+          if (
+            response.user.id !== this.current_user.value?.id ||
+            response.user.name !== this.current_user.value?.name ||
+            response.user.email !== this.current_user.value?.email
+          ) {
+            this.router.navigate(['/']);
+            this.toastr.warning(`
+              ${titleCase(response.user.name)} data fetch complete but not current user
+              ${titleCase(this.current_user.value?.name)} you only update data Profile for self
+            `);
+          } else {
+            this.toastr.success(`${titleCase(response.user.name)} data fetch complete`);
+          }
         }
       },
       error: error => {

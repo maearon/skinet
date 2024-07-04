@@ -57,6 +57,7 @@ export interface ShowResponse<UserShow> {
 }
 
 export interface UserEdit {
+  readonly id: number
   name: string
   email: string
 }
