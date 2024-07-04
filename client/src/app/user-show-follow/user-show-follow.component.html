@@ -1,0 +1,69 @@
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <img
+        class="gravatar rounded-circle mb-3"
+        [src]="'https://secure.gravatar.com/avatar/' + user.gravatar + '?s=80'"
+        [alt]="user.name"
+        width="80"
+        height="80"
+      />
+      <h1>{{ user.name }}</h1>
+      <span><a [routerLink]="['/users', user.id]">View my profile</a></span>
+      <span><b>Microposts:</b> {{ user.micropost }}</span>
+    </section>
+
+    <section class="stats mt-4">
+      <div class="stats">
+        <a [routerLink]="['/users', user.id, 'following']">
+          <strong id="following" class="stat">
+            {{ user.following }}
+          </strong> following
+        </a>
+        <a [routerLink]="['/users', user.id, 'followers']">
+          <strong id="followers" class="stat">
+            {{ user.followers }}
+          </strong> followers
+        </a>
+      </div>
+
+      <div class="user_avatars mt-3">
+        <ng-container *ngIf="xusers.length > 0">
+          <a *ngFor="let u of xusers" [routerLink]="['/users', u.id]">
+            <img
+              class="gravatar rounded-circle me-2"
+              [src]="'https://secure.gravatar.com/avatar/' + u.gravatar_id + '?s=30'"
+              [alt]="u.name"
+              width="30"
+              height="30"
+            />
+          </a>
+        </ng-container>
+      </div>
+    </section>
+  </aside>
+
+  <div class="col-md-8">
+    <ng-container *ngIf="users.length > 0">
+      <h3>{{ follow | titlecase }}</h3>
+      <ul class="list-group users follow">
+        <li *ngFor="let u of users" class="list-group-item d-flex align-items-center">
+          <img
+            class="gravatar rounded-circle me-3"
+            [src]="'https://secure.gravatar.com/avatar/' + u.gravatar_id + '?s=' + u.size"
+            [alt]="u.name"
+            [width]="u.size"
+            [height]="u.size"
+          />
+          <a [routerLink]="['/users', u.id]">{{ u.name }}</a>
+          <span class="ms-auto">
+            <a *ngIf="current_user.value?.admin == 'admin' && current_user.value?.id !== u.id" (click)="removeUser(u.id)" class="btn btn-link text-danger">
+              delete
+            </a>
+          </span>
+        </li>
+      </ul>
+      <!-- <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls> -->
+    </ng-container>
+  </div>
+</div>

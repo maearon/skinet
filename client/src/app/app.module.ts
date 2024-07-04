@@ -13,13 +13,15 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { OrderDetailedComponent } from './order-detailed/order-detailed.component';
 import { UserDetailedComponent } from './user-detailed/user-detailed.component';
 import { FollowFormComponent } from './shared/users/follow-form/follow-form.component';
+import { ShowFollowComponent } from './user-show-follow/user-show-follow.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderDetailedComponent,
     UserDetailedComponent,
-    FollowFormComponent
+    FollowFormComponent,
+    ShowFollowComponent
   ],
   imports: [
     BrowserModule,
