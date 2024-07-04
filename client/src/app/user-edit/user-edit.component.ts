@@ -68,8 +68,8 @@ export class EditComponent implements OnInit {
     this.userApiService.update(this.id, { user: this.userForm.value }).subscribe({
       next: response => {
         this.inputEl.nativeElement.blur();
-        if (response.flash_success) {
-          this.toastr.success(...response.flash_success);
+        if (response.status === 200) {
+          this.toastr.success(response.message);
           this.getUserInfo();
         }
         if (response.error) {

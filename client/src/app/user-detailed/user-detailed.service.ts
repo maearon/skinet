@@ -81,6 +81,8 @@ export interface UpdateField {
 export interface UpdateResponse {
   flash_success?: [message_type: string, message: string]
   error?: string[]
+  status?: number;
+  message?: string;
 }
 
 export interface Response {
@@ -114,7 +116,7 @@ export interface IUserFollow {
   providedIn: 'root'
 })
 export class UserApiService {
-  private baseUrl = `${environment.apiUrl}/users`;
+  private baseUrl = `${environment.apiUrl}users`;
 
   constructor(private http: HttpClient) {}
 
@@ -131,7 +133,7 @@ export class UserApiService {
   }
 
   edit(id: string): Observable<EditResponse> {
-    return this.http.get<EditResponse>(`${this.baseUrl}/${id}`);
+    return this.http.get<EditResponse>(`${this.baseUrl}/${id}/edit`);
   }
 
   update(id: string, params: UpdateParams): Observable<UpdateResponse> {
