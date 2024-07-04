@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './core/about/about.component';
 import { HelpComponent } from './core/help/help.component';
 import { ContactComponent } from './core/contact/contact.component';
+import { EditComponent } from './user-edit/user-edit.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent, data: {breadcrumb: 'Home'}},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'help', component: HelpComponent},
   {path: 'contact', component: ContactComponent},
+  {path: 'users/:id/edit', component: EditComponent},
   {path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
   {path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule)},
   {path: 'basket', loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)},

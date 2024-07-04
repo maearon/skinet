@@ -14,6 +14,8 @@ import { OrderDetailedComponent } from './order-detailed/order-detailed.componen
 import { UserDetailedComponent } from './user-detailed/user-detailed.component';
 import { FollowFormComponent } from './shared/users/follow-form/follow-form.component';
 import { ShowFollowComponent } from './user-show-follow/user-show-follow.component';
+import { EditComponent } from './user-edit/user-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import { ShowFollowComponent } from './user-show-follow/user-show-follow.compone
     OrderDetailedComponent,
     UserDetailedComponent,
     FollowFormComponent,
-    ShowFollowComponent
+    ShowFollowComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     CoreModule,
     HomeModule
   ],

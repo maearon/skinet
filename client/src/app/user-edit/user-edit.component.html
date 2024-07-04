@@ -1,0 +1,80 @@
+<h1>Update your profile</h1>
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="user_name">Name</label>
+        <input
+          type="text"
+          id="user_name"
+          class="form-control"
+          formControlName="name"
+        />
+        <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+          <div *ngIf="userForm.get('name')?.errors?.['required']">Name is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="user_email">Email</label>
+        <input
+          type="email"
+          id="user_email"
+          class="form-control"
+          formControlName="email"
+        />
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+          <div *ngIf="userForm.get('email')?.errors?.['required']">Email is required</div>
+          <div *ngIf="userForm.get('email')?.errors?.['email']">Invalid email format</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="user_password">Password</label>
+        <input
+          type="password"
+          id="user_password"
+          class="form-control"
+          formControlName="password"
+          autocomplete="new-password"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="user_password_confirmation">Confirmation</label>
+        <input
+          type="password"
+          id="user_password_confirmation"
+          class="form-control"
+          formControlName="password_confirmation"
+          autocomplete="new-password"
+        />
+      </div>
+
+      <input
+        #inputEl
+        type="submit"
+        [disabled]="userForm.invalid"
+        [value]="userForm.pending ? 'Loading...' : 'Save changes'"
+        class="btn btn-primary mt-2"
+      />
+    </form>
+
+    <div class="gravatar_edit mt-3">
+      <img
+        [src]="'https://secure.gravatar.com/avatar/' + gravatar + '?s=80'"
+        alt="{{ user.name }}"
+        class="gravatar"
+        width="80"
+        height="80"
+      />
+      <a
+        href="https://gravatar.com/emails"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        change
+      </a>
+    </div>
+  </div>
+</div>

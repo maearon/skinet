@@ -42,7 +42,7 @@
                       </a>
                     </li> -->
                     <li class="py-1">
-                        <a routerLink="/basket" class="dropdown-item">
+                        <a [routerLink]="['/users', user.id, 'edit']" class="dropdown-item">
                             <i class="fa fa-cog me-3"></i> Settings
                         </a>
                     </li>
