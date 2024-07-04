@@ -13,8 +13,8 @@ import { User as CurrentUser } from '../shared/models/user';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-  page: number = 1;
-  total_count: number = 1;
+  page = 1;
+  total_count = 1;
   currentUser$: Observable<CurrentUser | null> = of(null);
 
   constructor(

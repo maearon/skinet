@@ -22,13 +22,13 @@ export class UserDetailedComponent implements OnInit, OnDestroy {
   user: UserShow | null = null;
   microposts: Micropost[] = [];
   id: string | null = '';
-  page: number = 1;
-  totalCount: number = 1;
+  page = 1;
+  totalCount = 1;
   private routeSub?: Subscription;
   private userSub?: Subscription;
   currentUser: { value: CurrentUser | null, error: string } = { value: null, error: '' };
-  loading: boolean = true;
-  isSubmitting: boolean = false;
+  loading = true;
+  isSubmitting = false;
 
   constructor(
     private route: ActivatedRoute,

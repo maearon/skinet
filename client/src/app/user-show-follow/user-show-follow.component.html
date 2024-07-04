@@ -57,7 +57,7 @@
           />
           <a [routerLink]="['/users', u.id]">{{ u.name }}</a>
           <span class="ms-auto">
-            <a *ngIf="current_user.value?.admin == 'admin' && current_user.value?.id !== u.id" (click)="removeUser(u.id)" class="btn btn-link text-danger">
+            <a *ngIf="current_user.value?.admin === 'admin' && current_user.value?.id !== u.id" (click)="removeUser(u.id)" class="btn btn-link text-danger">
               delete
             </a>
           </span>

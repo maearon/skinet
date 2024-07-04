@@ -14,13 +14,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ShowFollowComponent implements OnInit {
   users: UserFollow[] = [];
   xusers: UserFollow[] = [];
-  page: number = 1;
-  total_count: number = 1;
+  page = 1;
+  total_count = 1;
   user: IUserFollow = {} as IUserFollow;
-  id: string = '';
-  follow: string = '';
+  id = '';
+  follow = '';
   current_user: { value: CurrentUser | null, error: string } = { value: null, error: '' };
-  loading: boolean = true;
+  loading = true;
 
   constructor(
     private userFollowService: UserApiService,
@@ -74,7 +74,7 @@ export class ShowFollowComponent implements OnInit {
   }
 
   removeUser(id: number): void {
-    let sure = window.confirm("Are you sure?");
+    const sure = window.confirm("Are you sure?");
     if (sure) {
       this.userFollowService.destroy(id).subscribe({
         next: response => {

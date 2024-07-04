@@ -14,19 +14,19 @@ import { AccountService } from '../account/account.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  page: number = 1;
+  page = 1;
   feedItems: Micropost[] = [];
-  totalCount: number = 1;
-  following: number = 0;
-  followers: number = 0;
+  totalCount = 1;
+  following = 0;
+  followers = 0;
   micropostCount = 0;
-  micropost: number = 0;
-  gravatar: string = '';
-  content: string = '';
+  micropost = 0;
+  gravatar = '';
+  content = '';
   image: File | null = null;
-  imageName: string = '';
+  imageName = '';
   errors: string[] = [];
-  loading: boolean = true;
+  loading = true;
   userData: { value: CurrentUser | null, error: string } = { value: null, error: '' };
   currentUser$: Observable<CurrentUser | null> = of(null);
 

@@ -155,7 +155,7 @@ export class UsersService {
   }
 
   follow(id: string, page: number, lastUrlSegment: string): Observable<FollowResponse<UserFollow, IUserFollow>> {
-    let httpParams = new HttpParams().set('page', page.toString());
+    const httpParams = new HttpParams().set('page', page.toString());
     return this.http.get<FollowResponse<UserFollow, IUserFollow>>(`${this.apiUrl}/${id}/${lastUrlSegment}`, { params: httpParams });
   }
 }

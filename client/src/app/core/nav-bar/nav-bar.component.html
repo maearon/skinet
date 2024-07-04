@@ -14,12 +14,12 @@
         <a class="p-2" *ngIf="accountService.currentUser$ | async as user" routerLink="/users/{{user.id}}" routerLinkActive="active">Profile</a>
     </nav>
     <div class="d-flex align-items-center">
-        <a routerLink="/basket" class="position-relative">
+        <!-- <a routerLink="/basket" class="position-relative">
             <i class="fa fa-shopping-cart fa-2x me-5 text-dark"></i>
             <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no">
                 {{getCount(basket.items)}}
             </div>
-        </a>
+        </a> -->
         <ng-container *ngIf="(accountService.currentUser$ | async) === null">
             <a routerLink="/account/login" class="btn btn-outline-secondary me-2">Login</a>
             <a routerLink="/account/register" class="btn btn-outline-secondary me-3">Sign up</a>
@@ -46,7 +46,7 @@
                             <i class="fa fa-cog me-3"></i> Settings
                         </a>
                     </li>
-                    <li class="py-1">
+                    <!-- <li class="py-1">
                         <a routerLink="/basket" class="dropdown-item">
                             <i class="fa fa-shopping-cart me-3"></i> View basket
                         </a>
@@ -55,7 +55,7 @@
                         <a routerLink="/orders" class="dropdown-item">
                             <i class="fa fa-history me-3"></i> View orders
                         </a>
-                    </li>
+                    </li> -->
                     <div class="dropdown-divider"></div>
                     <li class="py-1">
                         <a (click)="accountService.logout()" class="dropdown-item">

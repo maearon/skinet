@@ -14,7 +14,7 @@ export class EditComponent implements OnInit {
   userForm: FormGroup;
   id: string;
   user: UserEdit = {} as UserEdit;
-  gravatar: string = '';
+  gravatar = '';
   errors: string[] = [];
 
   constructor(

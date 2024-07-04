@@ -7,7 +7,7 @@
     <img [src]="'https://secure.gravatar.com/avatar/' + user.gravatar_id + '?s=' + user.size" [alt]="user.name" [width]="user.size" [height]="user.size" class="gravatar rounded-circle me-3">
     <a [routerLink]="['/users', user.id]">{{ user.name }}</a>
     <span class="ms-auto" *ngIf="(currentUser$ | async) as currentUser">
-      <a *ngIf="currentUser && currentUser.admin == 'admin' && currentUser.id !== user.id" href="#" (click)="removeUser(i, user.id)" class="btn btn-link text-danger">delete</a>
+      <a *ngIf="currentUser && currentUser.admin === 'admin' && currentUser.id !== user.id" href="#" (click)="removeUser(i, user.id)" class="btn btn-link text-danger">delete</a>
     </span>
   </li>
 </ul>

@@ -29,8 +29,8 @@ export class MicropostApiService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    let token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    let rememberToken = localStorage.getItem('remember_token') || sessionStorage.getItem('remember_token');
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const rememberToken = localStorage.getItem('remember_token') || sessionStorage.getItem('remember_token');
     return new HttpHeaders().set('Authorization', `Bearer ${token} ${rememberToken}`);
   }
 }
