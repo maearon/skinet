@@ -89,7 +89,7 @@
   <div class="col-md-8">
     <h3>Micropost Feed</h3>
     <div *ngIf="feedItems.length > 0">
-      <ol class="microposts list-unstyled">
+      <!-- <ol class="microposts list-unstyled">
         <li *ngFor="let i of feedItems" [id]="'micropost-' + i.id" class="media mb-3">
           <a [routerLink]="['/users', i.user_id]">
             <img
@@ -114,6 +114,35 @@
             </span>
           </div>
         </li>
+      </ol> -->
+
+      <ol class="microposts list-unstyled">
+        @for (i of feedItems; track i.id) {
+          <li [id]="'micropost-' + i.id" class="media mb-3">
+            <a [routerLink]="['/users', i.user_id]">
+              <img
+                class="mr-3 gravatar"
+                [src]="'https://secure.gravatar.com/avatar/' + i.gravatar_id + '?s=' + i.size"
+                [alt]="i.user_name"
+                [width]="i.size"
+                [height]="i.size"
+              />
+            </a>
+            <div class="media-body">
+              <span class="user">
+                <a [routerLink]="['/users', i.user_id]">{{ i.user_name }}</a>
+              </span>
+              <span class="content">
+                {{ i.content }}
+                <img *ngIf="i.image" [src]="i.image" alt="Example User" style="width: 100%; height: auto;" />
+              </span>
+              <span class="timestamp">
+                Posted {{ i.timestamp }} ago.
+                <a *ngIf="userData.value?.id === i.user_id" (click)="removeMicropost(i.id)">delete</a>
+              </span>
+            </div>
+          </li>
+        }
       </ol>
 
       <!-- <app-pagination
@@ -132,18 +161,16 @@
     <h1>Welcome to the Sample App</h1>
     <h2>
       This is the home page for the
-      <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">NextJS Tutorial</a>
+      <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer">Angular Tutorial</a>
       sample application.
     </h2>
     <a routerLink="/signup" class="btn btn-lg btn-primary">Sign up now!</a>
   </div>
-  <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">
+  <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer">
     <img
-      class="logo"
-      src="/assets/next.svg"
-      alt="Next.js logo"
-      width="180"
-      height="38"
+      class="angular-logo"
+      src="/assets/images/angular-logo.svg"
+      alt="Angular Logo"
     />
   </a>
 </div>
